@@ -1,6 +1,7 @@
 import discord
 import random
 import os
+import asyncio
 from discord.ext import commands
 from discord import app_commands
 from dotenv import load_dotenv, dotenv_values
@@ -16,25 +17,34 @@ class Client(commands.Bot):
         except Exception as e:
             print(f'Error syncing commands: {e}')
 
-
-    async def on_message(self, message):
-        if message.author == self.user:
-            return
-        
-        if message.content.startswith('hello'):
-            await message.channel.send(f'The Swarm Welcomes you {message.author}')
-
-# This is a channel ID
-# 1331434831044935870
-
+load_dotenv()
 
 # Here we are initializing the discord object 
 intents = discord.Intents.default()
 intents.message_content = True
 client = Client(command_prefix="!", intents=intents)
 
-GUILD_ID = discord.Object(id=1331434831044935870)
+GUILD_ID = discord.Object(id=int(os.getenv("CHANNEL_ID")))
 
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+    
+    if message.content.startswith('Hello Kerrigan'):
+        sent_message = await message.channel.send(f'The <:hydralisk:1331472166323224697>Swarm<:hydralisk:1331472166323224697> Welcomes you {message.author}')
+        await asyncio.sleep(2)
+        await sent_message.edit(content='Actually...')
+        await asyncio.sleep(2)
+        await sent_message.edit(content='The <:hydralisk:1331472166323224697>***Swarm***<:hydralisk:1331472166323224697> is hungry...')
+        await asyncio.sleep(2)
+        await sent_message.edit(content='Prepare to be eaten...')
+        await asyncio.sleep(2)
+        await sent_message.edit(content='Not very substantial... At best an appetizer...')
+        await asyncio.sleep(2)
+        await sent_message.edit(content='Pathetic Mortal...')
+        await asyncio.sleep(2)       
+        await sent_message.delete()   
 
 #Slash Command for rolling dice
 @client.tree.command(name="rolldice", description="Roll Some Dice", guild=GUILD_ID)
@@ -67,6 +77,5 @@ async def rollDice(interaction: discord.Interaction, numberofdice: int, dicesize
     await interaction.response.send_message(response)
 
 
-load_dotenv()
 
 client.run(os.getenv("QUEEN_OF_BLADES_DISCORD_BOT_KEY"))
