@@ -27,23 +27,24 @@ client = Client(command_prefix="!", intents=intents)
 GUILD_ID = discord.Object(id=int(os.getenv("CHANNEL_ID")))
 
 @client.event
-async def on_message(message):
+async def on_message(message: discord.message):
     if message.author == client.user:
         return
     
-    if message.content.startswith('Hello Kerrigan'):
+    
+    if message.content.lower().startswith('hello kerrigan'):
         sent_message = await message.channel.send(f'The <:hydralisk:1331472166323224697>Swarm<:hydralisk:1331472166323224697> Welcomes you {message.author}')
-        await asyncio.sleep(2)
+        await asyncio.sleep(3)
         await sent_message.edit(content='Actually...')
-        await asyncio.sleep(2)
+        await asyncio.sleep(3)
         await sent_message.edit(content='The <:hydralisk:1331472166323224697>***Swarm***<:hydralisk:1331472166323224697> is hungry...')
-        await asyncio.sleep(2)
-        await sent_message.edit(content='Prepare to be eaten...')
-        await asyncio.sleep(2)
-        await sent_message.edit(content='Not very substantial... At best an appetizer...')
-        await asyncio.sleep(2)
-        await sent_message.edit(content='Pathetic Mortal...')
-        await asyncio.sleep(2)       
+        await asyncio.sleep(3)
+        await sent_message.edit(content='You\'ll make a suitable meal for my Zerg Army...')
+        await asyncio.sleep(3)
+        await sent_message.edit(content='On second though, you are not don\'t a very substantial specimen... At best an appetizer...')
+        await asyncio.sleep(3)
+        await sent_message.edit(content='Pathetic...')
+        await asyncio.sleep(3)       
         await sent_message.delete()   
 
 #Slash Command for rolling dice
